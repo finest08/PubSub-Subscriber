@@ -14,124 +14,124 @@ import (
 // Requires gRPC-Go v1.32.0 or later.
 const _ = grpc.SupportPackageIsVersion7
 
-// GreeterClient is the client API for Greeter service.
+// GreeterServiceClient is the client API for GreeterService service.
 //
 // For semantics around ctx use and closing/ending streaming RPCs, please refer to https://pkg.go.dev/google.golang.org/grpc/?tab=doc#ClientConn.NewStream.
-type GreeterClient interface {
+type GreeterServiceClient interface {
 	// Sends a greeting
-	SayHello(ctx context.Context, in *HelloRequest, opts ...grpc.CallOption) (*HelloReply, error)
-	Person(ctx context.Context, in *PersonRequest, opts ...grpc.CallOption) (*PersonReply, error)
+	SayHello(ctx context.Context, in *SayHelloRequest, opts ...grpc.CallOption) (*SayHelloResponse, error)
+	Person(ctx context.Context, in *PersonRequest, opts ...grpc.CallOption) (*PersonResponse, error)
 }
 
-type greeterClient struct {
+type greeterServiceClient struct {
 	cc grpc.ClientConnInterface
 }
 
-func NewGreeterClient(cc grpc.ClientConnInterface) GreeterClient {
-	return &greeterClient{cc}
+func NewGreeterServiceClient(cc grpc.ClientConnInterface) GreeterServiceClient {
+	return &greeterServiceClient{cc}
 }
 
-func (c *greeterClient) SayHello(ctx context.Context, in *HelloRequest, opts ...grpc.CallOption) (*HelloReply, error) {
-	out := new(HelloReply)
-	err := c.cc.Invoke(ctx, "/greeting.v1.Greeter/SayHello", in, out, opts...)
+func (c *greeterServiceClient) SayHello(ctx context.Context, in *SayHelloRequest, opts ...grpc.CallOption) (*SayHelloResponse, error) {
+	out := new(SayHelloResponse)
+	err := c.cc.Invoke(ctx, "/proto.greeting.v1.GreeterService/SayHello", in, out, opts...)
 	if err != nil {
 		return nil, err
 	}
 	return out, nil
 }
 
-func (c *greeterClient) Person(ctx context.Context, in *PersonRequest, opts ...grpc.CallOption) (*PersonReply, error) {
-	out := new(PersonReply)
-	err := c.cc.Invoke(ctx, "/greeting.v1.Greeter/Person", in, out, opts...)
+func (c *greeterServiceClient) Person(ctx context.Context, in *PersonRequest, opts ...grpc.CallOption) (*PersonResponse, error) {
+	out := new(PersonResponse)
+	err := c.cc.Invoke(ctx, "/proto.greeting.v1.GreeterService/Person", in, out, opts...)
 	if err != nil {
 		return nil, err
 	}
 	return out, nil
 }
 
-// GreeterServer is the server API for Greeter service.
-// All implementations must embed UnimplementedGreeterServer
+// GreeterServiceServer is the server API for GreeterService service.
+// All implementations must embed UnimplementedGreeterServiceServer
 // for forward compatibility
-type GreeterServer interface {
+type GreeterServiceServer interface {
 	// Sends a greeting
-	SayHello(context.Context, *HelloRequest) (*HelloReply, error)
-	Person(context.Context, *PersonRequest) (*PersonReply, error)
-	mustEmbedUnimplementedGreeterServer()
+	SayHello(context.Context, *SayHelloRequest) (*SayHelloResponse, error)
+	Person(context.Context, *PersonRequest) (*PersonResponse, error)
+	mustEmbedUnimplementedGreeterServiceServer()
 }
 
-// UnimplementedGreeterServer must be embedded to have forward compatible implementations.
-type UnimplementedGreeterServer struct {
+// UnimplementedGreeterServiceServer must be embedded to have forward compatible implementations.
+type UnimplementedGreeterServiceServer struct {
 }
 
-func (UnimplementedGreeterServer) SayHello(context.Context, *HelloRequest) (*HelloReply, error) {
+func (UnimplementedGreeterServiceServer) SayHello(context.Context, *SayHelloRequest) (*SayHelloResponse, error) {
 	return nil, status.Errorf(codes.Unimplemented, "method SayHello not implemented")
 }
-func (UnimplementedGreeterServer) Person(context.Context, *PersonRequest) (*PersonReply, error) {
+func (UnimplementedGreeterServiceServer) Person(context.Context, *PersonRequest) (*PersonResponse, error) {
 	return nil, status.Errorf(codes.Unimplemented, "method Person not implemented")
 }
-func (UnimplementedGreeterServer) mustEmbedUnimplementedGreeterServer() {}
+func (UnimplementedGreeterServiceServer) mustEmbedUnimplementedGreeterServiceServer() {}
 
-// UnsafeGreeterServer may be embedded to opt out of forward compatibility for this service.
-// Use of this interface is not recommended, as added methods to GreeterServer will
+// UnsafeGreeterServiceServer may be embedded to opt out of forward compatibility for this service.
+// Use of this interface is not recommended, as added methods to GreeterServiceServer will
 // result in compilation errors.
-type UnsafeGreeterServer interface {
-	mustEmbedUnimplementedGreeterServer()
+type UnsafeGreeterServiceServer interface {
+	mustEmbedUnimplementedGreeterServiceServer()
 }
 
-func RegisterGreeterServer(s grpc.ServiceRegistrar, srv GreeterServer) {
-	s.RegisterService(&Greeter_ServiceDesc, srv)
+func RegisterGreeterServiceServer(s grpc.ServiceRegistrar, srv GreeterServiceServer) {
+	s.RegisterService(&GreeterService_ServiceDesc, srv)
 }
 
-func _Greeter_SayHello_Handler(srv interface{}, ctx context.Context, dec func(interface{}) error, interceptor grpc.UnaryServerInterceptor) (interface{}, error) {
-	in := new(HelloRequest)
+func _GreeterService_SayHello_Handler(srv interface{}, ctx context.Context, dec func(interface{}) error, interceptor grpc.UnaryServerInterceptor) (interface{}, error) {
+	in := new(SayHelloRequest)
 	if err := dec(in); err != nil {
 		return nil, err
 	}
 	if interceptor == nil {
-		return srv.(GreeterServer).SayHello(ctx, in)
+		return srv.(GreeterServiceServer).SayHello(ctx, in)
 	}
 	info := &grpc.UnaryServerInfo{
 		Server:     srv,
-		FullMethod: "/greeting.v1.Greeter/SayHello",
+		FullMethod: "/proto.greeting.v1.GreeterService/SayHello",
 	}
 	handler := func(ctx context.Context, req interface{}) (interface{}, error) {
-		return srv.(GreeterServer).SayHello(ctx, req.(*HelloRequest))
+		return srv.(GreeterServiceServer).SayHello(ctx, req.(*SayHelloRequest))
 	}
 	return interceptor(ctx, in, info, handler)
 }
 
-func _Greeter_Person_Handler(srv interface{}, ctx context.Context, dec func(interface{}) error, interceptor grpc.UnaryServerInterceptor) (interface{}, error) {
+func _GreeterService_Person_Handler(srv interface{}, ctx context.Context, dec func(interface{}) error, interceptor grpc.UnaryServerInterceptor) (interface{}, error) {
 	in := new(PersonRequest)
 	if err := dec(in); err != nil {
 		return nil, err
 	}
 	if interceptor == nil {
-		return srv.(GreeterServer).Person(ctx, in)
+		return srv.(GreeterServiceServer).Person(ctx, in)
 	}
 	info := &grpc.UnaryServerInfo{
 		Server:     srv,
-		FullMethod: "/greeting.v1.Greeter/Person",
+		FullMethod: "/proto.greeting.v1.GreeterService/Person",
 	}
 	handler := func(ctx context.Context, req interface{}) (interface{}, error) {
-		return srv.(GreeterServer).Person(ctx, req.(*PersonRequest))
+		return srv.(GreeterServiceServer).Person(ctx, req.(*PersonRequest))
 	}
 	return interceptor(ctx, in, info, handler)
 }
 
-// Greeter_ServiceDesc is the grpc.ServiceDesc for Greeter service.
+// GreeterService_ServiceDesc is the grpc.ServiceDesc for GreeterService service.
 // It's only intended for direct use with grpc.RegisterService,
 // and not to be introspected or modified (even as a copy)
-var Greeter_ServiceDesc = grpc.ServiceDesc{
-	ServiceName: "greeting.v1.Greeter",
-	HandlerType: (*GreeterServer)(nil),
+var GreeterService_ServiceDesc = grpc.ServiceDesc{
+	ServiceName: "proto.greeting.v1.GreeterService",
+	HandlerType: (*GreeterServiceServer)(nil),
 	Methods: []grpc.MethodDesc{
 		{
 			MethodName: "SayHello",
-			Handler:    _Greeter_SayHello_Handler,
+			Handler:    _GreeterService_SayHello_Handler,
 		},
 		{
 			MethodName: "Person",
-			Handler:    _Greeter_Person_Handler,
+			Handler:    _GreeterService_Person_Handler,
 		},
 	},
 	Streams:  []grpc.StreamDesc{},

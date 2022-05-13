@@ -1,12 +1,12 @@
 {
   "swagger": "2.0",
   "info": {
-    "title": "proto/greeting/v1/greeting.proto",
+    "title": "proto/person/v1/person.proto",
     "version": "version not set"
   },
   "tags": [
     {
-      "name": "GreeterService"
+      "name": "PersonService"
     }
   ],
   "consumes": [
@@ -51,15 +51,6 @@
           "type": "string"
         }
       }
-    },
-    "v1SayHelloResponse": {
-      "type": "object",
-      "properties": {
-        "message": {
-          "type": "string"
-        }
-      },
-      "title": "The response message containing the greetings"
     }
   }
 }

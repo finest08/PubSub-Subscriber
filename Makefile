@@ -4,3 +4,6 @@ proto:
 	buf mod update
 	buf generate
 	buf build
+.PHONY: run
+run:
+	go run .
