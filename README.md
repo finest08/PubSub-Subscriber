@@ -10,4 +10,4 @@ I have a `.proto` file in this directory, and generate protobuf files using `mak
 
 First have `PubSubSubscriber` running
 
-Start both demos with `go run .`
+Start both demos with `make run`
