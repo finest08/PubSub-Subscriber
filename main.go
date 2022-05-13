@@ -23,8 +23,9 @@ type server struct {
 
 // SayHello implements helloworld.GreeterServer
 func (s *server) SayHello(ctx context.Context, in *pb.HelloRequest) (*pb.HelloReply, error) {
-	log.Printf("Received: %v", in.GetName())
-	return &pb.HelloReply{Message: "Hello " + in.GetName()}, nil
+	log.Printf("Received message: %v", in.GetName())
+	// return &pb.HelloReply{Message: "Hello " + in.GetName()}, nil
+	return &pb.HelloReply{Message: "Greeting received. LOUD AND CLEAR! "}, nil
 }
 
 func main() {
@@ -35,7 +36,7 @@ func main() {
 	}
 	s := grpc.NewServer()
 	pb.RegisterGreeterServer(s, &server{})
-	log.Printf("server listening at %v", lis.Addr())
+	log.Printf("Subscribing service listening at %v", lis.Addr())
 	if err := s.Serve(lis); err != nil {
 		log.Fatalf("failed to serve: %v", err)
 	}
