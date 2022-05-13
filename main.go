@@ -28,6 +28,12 @@ func (s *server) SayHello(ctx context.Context, in *pb.HelloRequest) (*pb.HelloRe
 	return &pb.HelloReply{Message: "Greeting received. LOUD AND CLEAR! "}, nil
 }
 
+// Person implements
+func (s *server) Person(ctx context.Context, in *pb.PersonRequest) (*pb.PersonReply, error) {
+	log.Printf("Received message: \n%v,\n%v,\n%s", in.GetName(), in.GetOccupation(), in.GetAge())
+	return &pb.PersonReply{Message: "Received Person Details: " + in.GetName()}, nil
+}
+
 func main() {
 	flag.Parse()
 	lis, err := net.Listen("tcp", fmt.Sprintf(":%d", *port))

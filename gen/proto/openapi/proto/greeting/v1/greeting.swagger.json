@@ -52,6 +52,14 @@
         }
       },
       "title": "The response message containing the greetings"
+    },
+    "v1PersonReply": {
+      "type": "object",
+      "properties": {
+        "message": {
+          "type": "string"
+        }
+      }
     }
   }
 }
