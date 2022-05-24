@@ -1,20 +1,23 @@
 syntax = "proto3";
 
-package proto.person.v1;
+package person.v1;
 
 // The person service definition.
 service PersonService {
-  rpc Person (PersonRequest) returns (PersonResponse) {}
+  rpc Create(CreateRequest) returns (CreateResponse); 
 }
 
-message PersonRequest {
+message CreateRequest  {
+  /* ccan sdifhjsdlf*/
+  Person person = 1; 
+}
+
+message CreateResponse { 
+  string message = 2;
+}
+
+message Person {
   string first_name = 1;
   string last_name = 2;
   string email = 3;
-  string occupation = 4;
-  string age = 5;
-}
-
-message PersonResponse {
-  string message = 1;
 }

@@ -18,7 +18,7 @@ const _ = grpc.SupportPackageIsVersion7
 //
 // For semantics around ctx use and closing/ending streaming RPCs, please refer to https://pkg.go.dev/google.golang.org/grpc/?tab=doc#ClientConn.NewStream.
 type PersonServiceClient interface {
-	Person(ctx context.Context, in *PersonRequest, opts ...grpc.CallOption) (*PersonResponse, error)
+	Create(ctx context.Context, in *CreateRequest, opts ...grpc.CallOption) (*CreateResponse, error)
 }
 
 type personServiceClient struct {
@@ -29,9 +29,9 @@ func NewPersonServiceClient(cc grpc.ClientConnInterface) PersonServiceClient {
 	return &personServiceClient{cc}
 }
 
-func (c *personServiceClient) Person(ctx context.Context, in *PersonRequest, opts ...grpc.CallOption) (*PersonResponse, error) {
-	out := new(PersonResponse)
-	err := c.cc.Invoke(ctx, "/proto.person.v1.PersonService/Person", in, out, opts...)
+func (c *personServiceClient) Create(ctx context.Context, in *CreateRequest, opts ...grpc.CallOption) (*CreateResponse, error) {
+	out := new(CreateResponse)
+	err := c.cc.Invoke(ctx, "/person.v1.PersonService/Create", in, out, opts...)
 	if err != nil {
 		return nil, err
 	}
@@ -42,7 +42,7 @@ func (c *personServiceClient) Person(ctx context.Context, in *PersonRequest, opt
 // All implementations must embed UnimplementedPersonServiceServer
 // for forward compatibility
 type PersonServiceServer interface {
-	Person(context.Context, *PersonRequest) (*PersonResponse, error)
+	Create(context.Context, *CreateRequest) (*CreateResponse, error)
 	mustEmbedUnimplementedPersonServiceServer()
 }
 
@@ -50,8 +50,8 @@ type PersonServiceServer interface {
 type UnimplementedPersonServiceServer struct {
 }
 
-func (UnimplementedPersonServiceServer) Person(context.Context, *PersonRequest) (*PersonResponse, error) {
-	return nil, status.Errorf(codes.Unimplemented, "method Person not implemented")
+func (UnimplementedPersonServiceServer) Create(context.Context, *CreateRequest) (*CreateResponse, error) {
+	return nil, status.Errorf(codes.Unimplemented, "method Create not implemented")
 }
 func (UnimplementedPersonServiceServer) mustEmbedUnimplementedPersonServiceServer() {}
 
@@ -66,20 +66,20 @@ func RegisterPersonServiceServer(s grpc.ServiceRegistrar, srv PersonServiceServe
 	s.RegisterService(&PersonService_ServiceDesc, srv)
 }
 
-func _PersonService_Person_Handler(srv interface{}, ctx context.Context, dec func(interface{}) error, interceptor grpc.UnaryServerInterceptor) (interface{}, error) {
-	in := new(PersonRequest)
+func _PersonService_Create_Handler(srv interface{}, ctx context.Context, dec func(interface{}) error, interceptor grpc.UnaryServerInterceptor) (interface{}, error) {
+	in := new(CreateRequest)
 	if err := dec(in); err != nil {
 		return nil, err
 	}
 	if interceptor == nil {
-		return srv.(PersonServiceServer).Person(ctx, in)
+		return srv.(PersonServiceServer).Create(ctx, in)
 	}
 	info := &grpc.UnaryServerInfo{
 		Server:     srv,
-		FullMethod: "/proto.person.v1.PersonService/Person",
+		FullMethod: "/person.v1.PersonService/Create",
 	}
 	handler := func(ctx context.Context, req interface{}) (interface{}, error) {
-		return srv.(PersonServiceServer).Person(ctx, req.(*PersonRequest))
+		return srv.(PersonServiceServer).Create(ctx, req.(*CreateRequest))
 	}
 	return interceptor(ctx, in, info, handler)
 }
@@ -88,12 +88,12 @@ func _PersonService_Person_Handler(srv interface{}, ctx context.Context, dec fun
 // It's only intended for direct use with grpc.RegisterService,
 // and not to be introspected or modified (even as a copy)
 var PersonService_ServiceDesc = grpc.ServiceDesc{
-	ServiceName: "proto.person.v1.PersonService",
+	ServiceName: "person.v1.PersonService",
 	HandlerType: (*PersonServiceServer)(nil),
 	Methods: []grpc.MethodDesc{
 		{
-			MethodName: "Person",
-			Handler:    _PersonService_Person_Handler,
+			MethodName: "Create",
+			Handler:    _PersonService_Create_Handler,
 		},
 	},
 	Streams:  []grpc.StreamDesc{},

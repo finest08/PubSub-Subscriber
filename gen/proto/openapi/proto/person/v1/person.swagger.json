@@ -44,10 +44,24 @@
         }
       }
     },
-    "v1PersonResponse": {
+    "v1CreateResponse": {
       "type": "object",
       "properties": {
         "message": {
+          "type": "string"
+        }
+      }
+    },
+    "v1Person": {
+      "type": "object",
+      "properties": {
+        "firstName": {
+          "type": "string"
+        },
+        "lastName": {
+          "type": "string"
+        },
+        "email": {
           "type": "string"
         }
       }
