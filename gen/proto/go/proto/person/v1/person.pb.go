@@ -25,7 +25,6 @@ type CreateRequest struct {
 	sizeCache     protoimpl.SizeCache
 	unknownFields protoimpl.UnknownFields
 
-	// ccan sdifhjsdlf
 	Person *Person `protobuf:"bytes,1,opt,name=person,proto3" json:"person,omitempty"`
 }
 
