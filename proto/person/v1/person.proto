@@ -8,7 +8,6 @@ service PersonService {
 }
 
 message CreateRequest  {
-  /* ccan sdifhjsdlf*/
   Person person = 1; 
 }
 
