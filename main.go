@@ -1,4 +1,3 @@
-// Package main implements a server for Greeter service.
 package main
 
 import (
@@ -30,14 +29,13 @@ func main() {
 	reflection.Register(grpcSrv) // for postman
 	
 	h := &handler.PersonServer{
-	Dapr:  client,
+		Dapr:  client,
 	}
-
 	pb.RegisterPersonServiceServer(grpcSrv, h)
 
 	ch := handler.CallbackServer{}
-
 	daprpb.RegisterAppCallbackServer(grpcSrv, ch)
+	
 	lis, err := net.Listen("tcp", ":8082")
 	if err != nil {
 		log.Fatalf("failed to listen: %v", err)
