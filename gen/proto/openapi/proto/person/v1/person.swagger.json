@@ -65,6 +65,14 @@
           "type": "string"
         }
       }
+    },
+    "v1UpdateResponse": {
+      "type": "object",
+      "properties": {
+        "message": {
+          "type": "string"
+        }
+      }
     }
   }
 }

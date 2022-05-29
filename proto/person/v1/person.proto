@@ -5,6 +5,7 @@ package person.v1;
 // The person service definition.
 service PersonService {
   rpc Create(CreateRequest) returns (CreateResponse);
+  rpc Update(UpdateRequest) returns (UpdateResponse);
 }
 
 message CreateRequest  {
@@ -12,6 +13,14 @@ message CreateRequest  {
 }
 
 message CreateResponse { 
+  string message = 2;
+}
+
+message UpdateRequest {
+  Person person = 1;
+}
+
+message UpdateResponse {
   string message = 2;
 }
 

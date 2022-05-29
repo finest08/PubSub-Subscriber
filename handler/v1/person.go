@@ -23,11 +23,27 @@ func (p PersonServer) Create(ctx context.Context, req *pb.CreateRequest) (*pb.Cr
 	// publish event
 	if err := p.Dapr.PublishEvent(
 		context.Background(),
-		"pubsub-publish", "restopic", person,
+		"pubsub-publish", "res-topic", person,
 		dapr.PublishEventWithContentType("application/json"),
 	); err != nil {
 		return &pb.CreateResponse{}, status.Errorf(codes.Aborted, "%s", "error publishing event")
 	}
-	fmt.Println("Published event: ", person.FirstName)
+	fmt.Println("Published event: ", "Create: ",person.FirstName)
 	return &pb.CreateResponse{Message: "Submission for " + person.FirstName + " " + person.LastName + " posted successfully."}, nil
+}
+
+func (p PersonServer) Update(ctx context.Context, req *pb.UpdateRequest) (*pb.UpdateResponse, error){
+	person := req.Person
+	
+	// publish event
+	if err := p.Dapr.PublishEvent(
+		context.Background(),
+		"pubsub-publish", "res-topic", person,
+		dapr.PublishEventWithContentType("application/json"),
+		
+	); err != nil {
+		return &pb.UpdateResponse{}, status.Errorf(codes.Aborted, "%s", "error publishing event")
+	}
+	fmt.Println("Published event: ", "Update: ",person.FirstName)
+	return &pb.UpdateResponse{Message: "Update Submission for " + person.FirstName + " " + person.LastName + " successful"}, nil
 }

@@ -21,11 +21,28 @@ type CallbackServer struct {
 // Dapr will call this method to get the list of topics the app wants to subscribe to.
 func (p CallbackServer) ListTopicSubscriptions(ctx context.Context, in *emptypb.Empty) (*pb.ListTopicSubscriptionsResponse, error) {
 
+	fmt.Println("ListTopicSubscriptions", in)
+	// return &pb.ListTopicSubscriptionsResponse{
+	// 	Subscriptions: []*pb.TopicSubscription{{
+	// 		PubsubName: "pubsub-publish",
+	// 		Topic:     "my-topic",
+	// 		Routes:     &pb.TopicRoutes{
+	// 			Rules: []*pb.TopicRule{
+	// 				{
+	// 					Match: `event.data.type == "update"`,
+	// 					Path:  "/update",
+	// 				},
+	// 			},
+	// 			Default: "/create"},
+	// 		}},
+	// }, nil
+
+
 	fmt.Println("ListTopicSubscriptions")
 	return &pb.ListTopicSubscriptionsResponse{
 		Subscriptions: []*pb.TopicSubscription{{
 			PubsubName: "pubsub-publish",
-			Topic:      "mytopic",
+			Topic:      "my-topic",
 			Routes:     &pb.TopicRoutes{Default: "/create"},
 		}},
 	}, nil
@@ -47,7 +64,10 @@ func (p CallbackServer) OnTopicEvent(ctx context.Context, in *pb.TopicEventReque
 
 switch in.Path {
 	case "/create":
+		fmt.Println("Switch: /create: ", per.FirstName)
+		
 	case "/update":
+		fmt.Println("Switch: /update: ", per.FirstName)
 	default:
 		return &pb.TopicEventResponse{},
 			status.Errorf(codes.Aborted, "unexpected path in OnTopicEvent: %s", in.Path)
