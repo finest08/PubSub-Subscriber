@@ -63,6 +63,9 @@
         },
         "email": {
           "type": "string"
+        },
+        "existing": {
+          "type": "string"
         }
       }
     },

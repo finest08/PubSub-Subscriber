@@ -22,30 +22,29 @@ type CallbackServer struct {
 func (p CallbackServer) ListTopicSubscriptions(ctx context.Context, in *emptypb.Empty) (*pb.ListTopicSubscriptionsResponse, error) {
 
 	fmt.Println("ListTopicSubscriptions", in)
-	// return &pb.ListTopicSubscriptionsResponse{
-	// 	Subscriptions: []*pb.TopicSubscription{{
-	// 		PubsubName: "pubsub-publish",
-	// 		Topic:     "my-topic",
-	// 		Routes:     &pb.TopicRoutes{
-	// 			Rules: []*pb.TopicRule{
-	// 				{
-	// 					Match: `event.data.type == "update"`,
-	// 					Path:  "/update",
-	// 				},
-	// 			},
-	// 			Default: "/create"},
-	// 		}},
-	// }, nil
-
-
-	fmt.Println("ListTopicSubscriptions")
 	return &pb.ListTopicSubscriptionsResponse{
 		Subscriptions: []*pb.TopicSubscription{{
 			PubsubName: "pubsub-publish",
 			Topic:      "my-topic",
-			Routes:     &pb.TopicRoutes{Default: "/create"},
+			Routes: &pb.TopicRoutes{
+				Rules: []*pb.TopicRule{
+					{
+						Match: `event.data["existing"] == "true"`,
+						Path:  "/update",
+					},
+				},
+				Default: "/create"},
 		}},
 	}, nil
+
+	// fmt.Println("ListTopicSubscriptions")
+	// return &pb.ListTopicSubscriptionsResponse{
+	// 	Subscriptions: []*pb.TopicSubscription{{
+	// 		PubsubName: "pubsub-publish",
+	// 		Topic:      "my-topic",
+	// 		Routes:     &pb.TopicRoutes{Default: "/create"},
+	// 	}},
+	// }, nil
 }
 
 // OnTopicEvent is fired for events subscribed to.
@@ -62,10 +61,10 @@ func (p CallbackServer) OnTopicEvent(ctx context.Context, in *pb.TopicEventReque
 
 	// fmt.Println(&per)
 
-switch in.Path {
+	switch in.Path {
 	case "/create":
 		fmt.Println("Switch: /create: ", per.FirstName)
-		
+
 	case "/update":
 		fmt.Println("Switch: /update: ", per.FirstName)
 	default:
